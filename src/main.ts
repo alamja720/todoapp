@@ -1,6 +1,10 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { provideStore } from '@ngrx/store';
 import { AppComponent } from './app/app.component';
+import { todoReducer } from './app/providers/todos.reducer';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideStore({ todos: todoReducer })
+  ]
+}).catch(err => console.error(err));

@@ -1,0 +1,6 @@
+<div>
+  <div *ngIf="todos.length <=0" class=" h-10 flex justify-center items-center text-2xl"> ADD TODOS!!! </div>
+  <div *ngFor="let todo of todos;">
+    <app-todo-item [todo]="todo"></app-todo-item>
+  </div>
+</div>
