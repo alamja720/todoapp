@@ -1,4 +1,3 @@
-// todos.states.ts
 export interface TodoModel {
   id: number;
   title: string;
