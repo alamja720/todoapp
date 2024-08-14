@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { todoSelector } from '../../providers/todos.reducer';
 import { TodoModel } from '../../providers/todos.states';
+import { TodoInputComponent } from '../todo-input/todo-input.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 
 @Component({
@@ -11,7 +12,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   standalone: true,
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
-  imports: [TodoItemComponent, CommonModule, FormsModule]
+  imports: [TodoItemComponent, CommonModule, FormsModule, TodoInputComponent]  // TodoInputComponent is included here
 })
 export class TodoListComponent implements OnInit {
   todos: TodoModel[] = [];
@@ -31,7 +32,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  onFilterChanged(showCompletedOnly: boolean) {
+  onFilterChanged(showCompletedOnly: boolean) {  // Ensure this method expects a boolean
     this.showCompletedOnly = showCompletedOnly;
     this.applyFilter();
   }

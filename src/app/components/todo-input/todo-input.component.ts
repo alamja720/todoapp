@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { actions } from '../../providers/todos.action';
 import { todoSelector } from '../../providers/todos.reducer';
 import { TodoModel } from '../../providers/todos.states';
+import { TodoListComponent } from '../todo-list/todo-list.component';
 
 @Component({
   selector: 'app-todo-input',
@@ -18,13 +19,13 @@ export class TodoInputComponent implements OnInit {
   todos?: TodoModel[];
   showCompletedOnly: boolean = false;
 
-  @Output() filterChanged = new EventEmitter<boolean>();
+  @Output() filterChanged = new EventEmitter<boolean>();  // Correct output type
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.select(todoSelector).subscribe(state => this.todos = state);
   }
-
-  constructor(private store: Store) {}
 
   addTodo() {
     if (this.todoInput!.length > 0) {
@@ -41,6 +42,7 @@ export class TodoInputComponent implements OnInit {
 
   toggleFilter() {
     this.showCompletedOnly = !this.showCompletedOnly;
-    this.filterChanged.emit(this.showCompletedOnly);
+    this.filterChanged.emit(this.showCompletedOnly);  // Emit a boolean
   }
+  
 }
