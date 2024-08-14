@@ -19,3 +19,6 @@
 .input{
     @apply flex-1 outline-none bg-slate-100 mr-2;
 }
+.green{
+    @apply hover:bg-green-500 bg-green-400;
+}

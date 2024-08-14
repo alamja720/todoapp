@@ -6,16 +6,16 @@ const initialState = JSON.parse(localStorage.getItem('todos') || '[]');
 
 export const todoReducer = createReducer(
   initialState,
-  on(actions.addTodoAction, (state, { id, title, completed, date, time }) => {
-    const newState = [...state, { id, title, completed, date, time }];
+  on(actions.addTodoAction, (state, { id, title, completed, date }) => {
+    const newState = [...state, { id, title, completed, date}];
     localStorage.setItem('todos', JSON.stringify(newState));
     return newState;
   }),
-  on(actions.updateTodoAction, (state, { id, title, completed, date, time }) => {
+  on(actions.updateTodoAction, (state, { id, title, completed, date}) => {
     let tempTodoIndex = state.findIndex((t: TodoModel) => t.id === id);
     var tempStates = [...state];
     if (tempTodoIndex != -1) {
-      tempStates[tempTodoIndex] = { id, title, completed, date, time };
+      tempStates[tempTodoIndex] = { id, title, completed, date};
     }
     localStorage.setItem('todos', JSON.stringify(tempStates));
     return tempStates;

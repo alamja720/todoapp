@@ -1,6 +1,8 @@
 <div class="flex">
     <input [(ngModel)]="todoInput" class="input px-2" type="text" placeholder="new todo item">
     <input class="input px-2" type="date" [(ngModel)]="dateInput" placeholder="Date">
-    <input class="input px-2" type="time" [(ngModel)]="timeInput" placeholder="Time">
     <button class="btn blue" (click)="addTodo()">Add</button>
-</div>
+    <!-- Filter Button -->
+    <button class="btn green" (click)="toggleFilter()">Show {{ showCompletedOnly ? 'All' : 'Completed' }} Todos</button>
+  </div>
+  

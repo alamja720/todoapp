@@ -15,6 +15,8 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 })
 export class TodoListComponent implements OnInit {
   todos: TodoModel[] = [];
+  filteredTodos: TodoModel[] = [];
+  showCompletedOnly: boolean = false;
 
   constructor(private store: Store) {}
 
@@ -24,8 +26,21 @@ export class TodoListComponent implements OnInit {
 
   loadTodos() {
     this.store.select(todoSelector).subscribe((state) => {
-      this.todos = state || []; 
-      console.log('Todos loaded:', this.todos);
+      this.todos = state || [];
+      this.applyFilter();
     });
+  }
+
+  onFilterChanged(showCompletedOnly: boolean) {
+    this.showCompletedOnly = showCompletedOnly;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    if (this.showCompletedOnly) {
+      this.filteredTodos = this.todos.filter(todo => todo.completed);
+    } else {
+      this.filteredTodos = this.todos;
+    }
   }
 }

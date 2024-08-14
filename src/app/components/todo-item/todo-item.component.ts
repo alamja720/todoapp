@@ -14,11 +14,10 @@ import { TodoModel } from '../../providers/todos.states';
 })
 export class TodoItemComponent {
   @Input() todo?: TodoModel;
-  editTodo: boolean = false;
+  editTodo: boolean = true;
   completeTodo: boolean = false;
   todoInput?: string;
   dateInput?: string;
-  timeInput?: string;
 
   constructor(private store: Store) {}
 
@@ -26,22 +25,20 @@ export class TodoItemComponent {
     this.completeTodo = this.todo!.completed;
     this.todoInput = this.todo!.title;
     this.dateInput = this.todo!.date;
-    this.timeInput = this.todo!.time;
   }
 
   updateToggle() {
     this.editTodo = !this.editTodo;
+    if(this.editTodo){this.updateTodo()}
   }
 
-  updateTodo() {
-    this.editTodo = !this.editTodo;
+  updateTodo(){
     if (this.todoInput!.length > 0) {
       this.store.dispatch(actions.updateTodoAction({
         id: this.todo!.id,
         completed: this.todo!.completed,
         title: this.todoInput!.trim(),
         date: this.dateInput!,
-        time: this.timeInput!
       }));
     } else {
       this.todoInput = this.todo!.title;
@@ -55,7 +52,6 @@ export class TodoItemComponent {
       completed: this.completeTodo,
       title: this.todo!.title,
       date: this.todo!.date,
-      time: this.todo!.time
     }));
   }
 
@@ -65,7 +61,6 @@ export class TodoItemComponent {
       completed: this.todo!.completed,
       title: this.todo!.title,
       date: this.todo!.date,
-      time: this.todo!.time
     }));
   }
 }

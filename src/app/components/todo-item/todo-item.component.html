@@ -1,17 +1,13 @@
 <div class="flex p-4 justify-between items-center bg-gray-50 my-2">
   <div class="flex items-center">
-    <div>#{{todo?.id}}</div>
+    <div>ID: {{todo?.id}}</div>
     <div class="ml-2" *ngIf="editTodo; else inputBlock">{{todo?.title}}</div>
     <ng-template #inputBlock>
       <input class="input ml-2 p-2" type="text" [(ngModel)]="todoInput" placeholder="Update title">
     </ng-template>
-    <div class="ml-2" *ngIf="editTodo; else dateBlock">{{todo?.date}}</div>
+    <div class="ml-2" *ngIf="editTodo; else dateBlock"> Due on {{todo?.date}}</div>
     <ng-template #dateBlock>
       <input class="input ml-2 p-2" type="date" [(ngModel)]="dateInput">
-    </ng-template>
-    <div class="ml-2" *ngIf="editTodo; else timeBlock">{{todo?.time}}</div>
-    <ng-template #timeBlock>
-      <input class="input ml-2 p-2" type="time" [(ngModel)]="timeInput">
     </ng-template>
   </div>
   <div class="flex">

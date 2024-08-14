@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { actions } from '../../providers/todos.action';
@@ -15,8 +15,10 @@ import { TodoModel } from '../../providers/todos.states';
 export class TodoInputComponent implements OnInit {
   todoInput?: string;
   dateInput?: string;
-  timeInput?: string;
   todos?: TodoModel[];
+  showCompletedOnly: boolean = false;
+
+  @Output() filterChanged = new EventEmitter<boolean>();
 
   ngOnInit(): void {
     this.store.select(todoSelector).subscribe(state => this.todos = state);
@@ -27,15 +29,18 @@ export class TodoInputComponent implements OnInit {
   addTodo() {
     if (this.todoInput!.length > 0) {
       this.store.dispatch(actions.addTodoAction({
-        id: this.todos!.length,
+        id: this.todos!.length + 1,
         completed: false,
         title: this.todoInput!.trim(),
         date: this.dateInput!,
-        time: this.timeInput!
       }));
       this.todoInput = '';
       this.dateInput = '';
-      this.timeInput = '';
     }
+  }
+
+  toggleFilter() {
+    this.showCompletedOnly = !this.showCompletedOnly;
+    this.filterChanged.emit(this.showCompletedOnly);
   }
 }

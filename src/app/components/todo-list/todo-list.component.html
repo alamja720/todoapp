@@ -1,6 +1,8 @@
 <div>
-  <div *ngIf="todos.length <=0" class=" h-10 flex justify-center items-center text-2xl"> ADD TODOS!!! </div>
-  <div *ngFor="let todo of todos;">
+  <div *ngIf="filteredTodos.length <= 0" class="h-10 flex justify-center items-center text-2xl">
+    NO TODOS TO DISPLAY!
+  </div>
+  <div *ngFor="let todo of filteredTodos;">
     <app-todo-item [todo]="todo"></app-todo-item>
   </div>
 </div>
