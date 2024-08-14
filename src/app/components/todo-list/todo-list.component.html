@@ -1,5 +1,5 @@
 <div>
-  <app-todo-input (filterChanged)="onFilterChanged($event)"></app-todo-input>
+  <app-todo-input (filterChanged)="onFilterChanged($event)" (orderChanged)="onOrderChanged($event)"></app-todo-input>
 
   <div *ngIf="filteredTodos.length <= 0" class="h-10 flex justify-center items-center text-2xl">
     NO TODOS TO DISPLAY!

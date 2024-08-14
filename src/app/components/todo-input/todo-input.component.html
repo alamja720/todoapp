@@ -1,7 +1,7 @@
 <div class="flex">
-    <input [(ngModel)]="todoInput" class="input px-2" type="text" placeholder="new todo item">
-    <input class="input px-2" type="date" [(ngModel)]="dateInput" placeholder="Date">
-    <button class="btn blue" (click)="addTodo()">Add</button>
-    <button class="btn green" (click)="toggleFilter()">Show {{ showCompletedOnly ? 'All' : 'Completed' }} Todos</button>
-  </div>
-  
+  <input [(ngModel)]="todoInput" class="input px-2" type="text" placeholder="new todo item">
+  <input class="input px-2" type="date" [(ngModel)]="dateInput" placeholder="Date">
+  <button class="btn blue" (click)="addTodo()">Add</button>
+  <button class="exbtn orange" (click)="toggleFilter()">Show {{ showCompletedOnly ? 'All' : 'Completed' }} Todos</button>
+  <button class="exbtn purple" (click)="toggleOrder()">Order by {{ orderByDate ? 'Original Order' : 'Date' }}</button>
+</div>

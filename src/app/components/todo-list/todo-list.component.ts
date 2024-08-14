@@ -2,22 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { todoSelector } from '../../providers/todos.reducer';
 import { TodoModel } from '../../providers/todos.states';
 import { TodoInputComponent } from '../todo-input/todo-input.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { todoSelector, selectTodosOrderedByDate } from '../../providers/todos.reducer';
 
 @Component({
   selector: 'app-todo-list',
   standalone: true,
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
-  imports: [TodoItemComponent, CommonModule, FormsModule, TodoInputComponent]  // TodoInputComponent is included here
+  imports: [TodoItemComponent, CommonModule, FormsModule, TodoInputComponent]
 })
 export class TodoListComponent implements OnInit {
   todos: TodoModel[] = [];
   filteredTodos: TodoModel[] = [];
   showCompletedOnly: boolean = false;
+  orderByDate: boolean = false;
 
   constructor(private store: Store) {}
 
@@ -26,15 +27,21 @@ export class TodoListComponent implements OnInit {
   }
 
   loadTodos() {
-    this.store.select(todoSelector).subscribe((state) => {
+    const selector = this.orderByDate ? selectTodosOrderedByDate : todoSelector;
+    this.store.select(selector).subscribe((state) => {
       this.todos = state || [];
       this.applyFilter();
     });
   }
 
-  onFilterChanged(showCompletedOnly: boolean) {  // Ensure this method expects a boolean
+  onFilterChanged(showCompletedOnly: boolean) {
     this.showCompletedOnly = showCompletedOnly;
     this.applyFilter();
+  }
+
+  onOrderChanged(orderByDate: boolean) {
+    this.orderByDate = orderByDate;
+    this.loadTodos();
   }
 
   applyFilter() {

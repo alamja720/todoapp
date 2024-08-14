@@ -1,33 +1,34 @@
 import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
 import { actions } from './todos.action';
-import { TodoModel, todos } from './todos.states';
+import { TodoModel } from './todos.states';
 
-const initialState = JSON.parse(localStorage.getItem('todos') || '[]');
+const initialState: TodoModel[] = JSON.parse(localStorage.getItem('todos') || '[]');
 
 export const todoReducer = createReducer(
   initialState,
   on(actions.addTodoAction, (state, { id, title, completed, date }) => {
-    const newState = [...state, { id, title, completed, date}];
-    localStorage.setItem('todos', JSON.stringify(newState));
-    return newState;
+    return [...state, { id, title, completed, date }];
   }),
-  on(actions.updateTodoAction, (state, { id, title, completed, date}) => {
-    let tempTodoIndex = state.findIndex((t: TodoModel) => t.id === id);
-    var tempStates = [...state];
-    if (tempTodoIndex != -1) {
-      tempStates[tempTodoIndex] = { id, title, completed, date};
-    }
-    localStorage.setItem('todos', JSON.stringify(tempStates));
-    return tempStates;
+  on(actions.updateTodoAction, (state, { id, title, completed, date }) => {
+    return state.map(todo => todo.id === id ? { ...todo, title, completed, date } : todo);
   }),
   on(actions.deleteTodoAction, (state, { id }) => {
-    const newState = state.filter((t: TodoModel) => t.id !== id);
-    localStorage.setItem('todos', JSON.stringify(newState));
-    return newState;
+    return state.filter(todo => todo.id !== id);
   })
 );
 
+// Selector to get all todos
 export const todoSelector = createSelector(
   createFeatureSelector<TodoModel[]>('todos'),
   (todos) => todos
+);
+
+// Selector to get todos ordered by expiration date
+export const selectTodosOrderedByDate = createSelector(
+  createFeatureSelector<TodoModel[]>('todos'),
+  (todos) => todos.slice().sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateA - dateB;  // Sort in ascending order (earliest first)
+  })
 );

@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { actions } from '../../providers/todos.action';
 import { todoSelector } from '../../providers/todos.reducer';
 import { TodoModel } from '../../providers/todos.states';
-import { TodoListComponent } from '../todo-list/todo-list.component';
 
 @Component({
   selector: 'app-todo-input',
@@ -18,8 +17,10 @@ export class TodoInputComponent implements OnInit {
   dateInput?: string;
   todos?: TodoModel[];
   showCompletedOnly: boolean = false;
+  orderByDate: boolean = false;
 
-  @Output() filterChanged = new EventEmitter<boolean>();  // Correct output type
+  @Output() filterChanged = new EventEmitter<boolean>();
+  @Output() orderChanged = new EventEmitter<boolean>();
 
   constructor(private store: Store) {}
 
@@ -42,7 +43,11 @@ export class TodoInputComponent implements OnInit {
 
   toggleFilter() {
     this.showCompletedOnly = !this.showCompletedOnly;
-    this.filterChanged.emit(this.showCompletedOnly);  // Emit a boolean
+    this.filterChanged.emit(this.showCompletedOnly);
   }
-  
+
+  toggleOrder() {
+    this.orderByDate = !this.orderByDate;
+    this.orderChanged.emit(this.orderByDate);
+  }
 }
