@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { actions } from '../../providers/todos.action';
-import { todoSelector } from '../../providers/todos.reducer';
+import { selectAllTodos } from '../../providers/todos.selector';
 import { TodoModel } from '../../providers/todos.states';
 
 @Component({
@@ -24,9 +24,13 @@ export class TodoInputComponent implements OnInit {
 
   constructor(private store: Store) {}
 
+
   ngOnInit(): void {
-    this.store.select(todoSelector).subscribe(state => this.todos = state);
+    this.store.select(selectAllTodos).subscribe(state => {
+      this.todos = state as TodoModel[];  // Ensure correct type assignment
+    });
   }
+
 
   addTodo() {
     if (this.todoInput!.length > 0) {

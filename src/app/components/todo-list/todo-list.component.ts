@@ -1,18 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TodoModel } from '../../providers/todos.states';
 import { TodoInputComponent } from '../todo-input/todo-input.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { todoSelector, selectTodosOrderedByDate } from '../../providers/todos.reducer';
-
+import { selectAllTodos, selectTodosOrderedByDate } from '../../providers/todos.selector';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-todo-list',
   standalone: true,
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
-  imports: [TodoItemComponent, CommonModule, FormsModule, TodoInputComponent]
+  imports: [TodoItemComponent, TodoInputComponent, CommonModule]
 })
 export class TodoListComponent implements OnInit {
   todos: TodoModel[] = [];
@@ -27,7 +25,7 @@ export class TodoListComponent implements OnInit {
   }
 
   loadTodos() {
-    const selector = this.orderByDate ? selectTodosOrderedByDate : todoSelector;
+    const selector = this.orderByDate ? selectTodosOrderedByDate : selectAllTodos;
     this.store.select(selector).subscribe((state) => {
       this.todos = state || [];
       this.applyFilter();
